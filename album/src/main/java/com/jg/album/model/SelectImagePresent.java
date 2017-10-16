@@ -3,8 +3,9 @@ package com.jg.album.model;
 import android.app.Activity;
 import android.content.Context;
 
-import com.jg.album.model.soure.SelectImageDataSoure;
-import com.jg.album.model.soure.SelectImageRemoteRepo;
+import com.jg.album.model.data.PictureEntity;
+import com.jg.album.model.data.soure.SelectImageDataSoure;
+import com.jg.album.model.data.soure.SelectImageRemoteRepo;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class SelectImagePresent implements SelectImageContract.Present, SelectIm
     }
 
     @Override
-    public void onQueryAlbumSuccess(final List<String> imgs) {
+    public void onQueryAlbumSuccess(final List<PictureEntity> imgs) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

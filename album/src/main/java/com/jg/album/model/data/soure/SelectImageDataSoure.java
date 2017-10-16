@@ -1,6 +1,8 @@
-package com.jg.album.model.soure;
+package com.jg.album.model.data.soure;
 
 import android.content.Context;
+
+import com.jg.album.model.data.PictureEntity;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface SelectImageDataSoure {
 
         int getPageSize();
 
-        void onQueryAlbumSuccess(List<String> imgs);
+        void onQueryAlbumSuccess(List<PictureEntity> imgs);
 
         void onQueryAlbumFailure(String error);
     }

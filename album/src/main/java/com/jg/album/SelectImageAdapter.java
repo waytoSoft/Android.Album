@@ -1,13 +1,18 @@
 package com.jg.album;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.jg.album.model.data.PictureEntity;
 import com.jg.album.view.RecyclerViewBaseAdapter;
 
 /**
@@ -17,9 +22,9 @@ import com.jg.album.view.RecyclerViewBaseAdapter;
  * <p>
  * Copyright (c) 2017 Shenzhen O&M Cloud Co., Ltd. All rights reserved.
  */
-public class SelectImageAdapter extends RecyclerViewBaseAdapter<String> {
+public class SelectImageAdapter extends RecyclerViewBaseAdapter<PictureEntity> {
 
-    private Point mPoint = new Point(0, 0);
+    private OnSelectPictureListener selectPictureListener;
 
     public SelectImageAdapter(Context context) {
         super(context);
@@ -31,32 +36,84 @@ public class SelectImageAdapter extends RecyclerViewBaseAdapter<String> {
     }
 
     @Override
-    public void onBaseBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBaseBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.imageView.setOnMeasureListener(new PhotoAlbumImageView.OnMeasureListener() {
+
+        /*计算图片大小*/
+        int width = getScreenW((Activity) mContent) / 3;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width);
+        viewHolder.imageView.setLayoutParams(params);
+
+        viewHolder.checkBox.setOnCheckedChangeListener(null);
+
+        /*判断添加拍照*/
+        if (mList.get(position).getUrl().equals(SelectImageActivity.KEY_TAKE_PICTURE)) {
+
+            Glide.with(mContent).load(R.mipmap.icon_tack_picture).into(viewHolder.imageView);
+            viewHolder.checkBox.setVisibility(View.GONE);
+
+        } else {
+            Glide.with(mContent)
+                    .load("file://" + (mList.get(position).getUrl()))
+                    .placeholder(R.mipmap.default_img)
+                    .error(R.mipmap.default_img)
+                    .into(viewHolder.imageView);
+
+            viewHolder.checkBox.setVisibility(View.VISIBLE);
+        }
+
+        viewHolder.checkBox.setChecked(mList.get(position).isSelecte());
+
+        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onMeasureSize(int width, int height) {
-                mPoint.set(width, width);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
-//                params.width = width;
-//                params.height = height;
-                viewHolder.imageView.setLayoutParams(params);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    viewHolder.textView.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.textView.setVisibility(View.GONE);
+                }
+
+                mList.get(position).setSelecte(isChecked);
+
+                if (selectPictureListener != null)
+                    selectPictureListener.onSelectePicture(mList.get(position), isChecked);
             }
         });
-        Glide.with(mContent)
-                .load("file://" + (mList.get(position)))
-                .placeholder(R.mipmap.default_img)
-                .error(R.mipmap.default_img)
-                .into(viewHolder.imageView);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         PhotoAlbumImageView imageView;
+        CheckBox checkBox;
+        TextView textView;
 
         public ViewHolder(View view) {
             super(view);
             imageView = view.findViewById(R.id.Item_ImageView);
+            checkBox = view.findViewById(R.id.ItemSelectePicture_CheckBox);
+            textView = view.findViewById(R.id.ItemSelectePicture_shadow);
         }
+    }
+
+    public void setSelectPictureListener(OnSelectPictureListener selectPictureListener) {
+        this.selectPictureListener = selectPictureListener;
+    }
+
+
+    /**
+     * 获取屏幕宽度
+     * <p>
+     * author: hezhiWu
+     * created at 2017/10/16 20:19
+     */
+    public static int getScreenW(Activity aty) {
+        DisplayMetrics dm = new DisplayMetrics();
+        dm = aty.getResources().getDisplayMetrics();
+        int w = dm.widthPixels;
+        return w;
+    }
+
+    interface OnSelectPictureListener {
+        void onSelectePicture(PictureEntity entity, boolean isCheck);
     }
 }

@@ -1,5 +1,7 @@
 package com.jg.album.model;
 
+import com.jg.album.model.data.PictureEntity;
+
 import java.util.List;
 
 /**
@@ -16,9 +18,9 @@ public interface SelectImageContract {
 
         int getPageSize();
 
-        void onQueryAlbumSuccess(List<String> imgs);
+        void onQueryAlbumSuccess(List<PictureEntity> imgs);
 
-        void onQueryAlbumMoreSuccess(List<String> imgs);
+        void onQueryAlbumMoreSuccess(List<PictureEntity> imgs);
 
         void onQueryAlbumFailure(String error);
 

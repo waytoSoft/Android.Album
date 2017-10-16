@@ -415,7 +415,7 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
             }
 
             if (mMode == Mode.BOTH || mMode == Mode.PULL_FROM_END) {
-                if (lastVisibleItem == totalItemCount - 2 && dy > 0) {
+                if (lastVisibleItem == totalItemCount - 1 && dy > 0) {
                     isLoading = true;
 
                     mAdapter.setLoadStatus(RecyclerViewBaseAdapter.LOAD_MORE);

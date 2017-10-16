@@ -1,9 +1,12 @@
-package com.jg.album.model.soure;
+package com.jg.album.model.data.soure;
 
 import android.database.Cursor;
+import android.graphics.Picture;
 import android.media.ExifInterface;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+
+import com.jg.album.model.data.PictureEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +36,10 @@ public class SelectImageRemoteRepo implements SelectImageDataSoure {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String selection = MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME + " = 'Camera' ";
+                /*查询条件，可自行定义需要查询哪些文件夹下所有图片*/
+//                String selection = MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME + " = 'Camera' ";
+                String selection = null;
+
                 String sortOrder = MediaStore.Images.Media.DATE_ADDED + " DESC limit " + callBack.getPageSize() + " offset " + callBack.getPageIndex() * callBack.getPageSize();
 
                 Cursor mCursor = callBack.getContext().getContentResolver()
@@ -43,20 +49,28 @@ public class SelectImageRemoteRepo implements SelectImageDataSoure {
                                 null,
                                 sortOrder);
 
-                List<String> imgs = new ArrayList<>();
+                List<PictureEntity> imgs = new ArrayList<>();
                 while (mCursor.moveToNext()) {
                     try {
                         // 获取图片的路径
                         String path = mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
                         // 获取该图片的父路径名
                         String parentName = new File(path).getParentFile().getName();
+
                         /*只过滤相册*/
-                        if (!TextUtils.isEmpty(path) && !TextUtils.isEmpty(parentName) && "Camera".equals(parentName)) {
+                        if (!TextUtils.isEmpty(path) && !TextUtils.isEmpty(parentName)) {
+
                             /*图片存储时间*/
                             ExifInterface exifInterface = new ExifInterface(path);
                             String date = exifInterface.getAttribute(ExifInterface.TAG_DATETIME);
 
-                            imgs.add(path);
+                            PictureEntity entity=new PictureEntity();
+                            entity.setDate(date);
+                            entity.setUrl(path);
+                            entity.setSelecte(false);
+
+                            imgs.add(entity);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
