@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.jg.album.model.data.PictureEntity;
-import com.jg.album.view.PullToRefresRecyclerView;
+import com.jg.album.view.PullToRefreshRecyclerView;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    PullToRefresRecyclerView pullToRefresRecyclerView;
+    PullToRefreshRecyclerView pullToRefresRecyclerView;
 
     private ShowImageAdapter adapter;
 
@@ -21,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pullToRefresRecyclerView = (PullToRefresRecyclerView) findViewById(R.id.MainActivity_RecyclerView);
+        pullToRefresRecyclerView = (PullToRefreshRecyclerView) findViewById(R.id.MainActivity_RecyclerView);
 
         initRecyclerView();
         findViewById(R.id.Button).setOnClickListener(new View.OnClickListener() {

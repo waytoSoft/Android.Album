@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="PullToRefresRecyclerView">
+    <declare-styleable name="PullToRefreshRecyclerView">
         <attr name="span.Count" format="integer|reference" />
         <attr name="spac.InPixels" format="integer|reference" />
+        <attr name="recyclerView.PageSize" format="integer|reference" />
         <attr name="recyclerView.Type" format="enum">
             <enum name="List" value="10" />
             <enum name="Grid" value="20" />

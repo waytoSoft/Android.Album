@@ -14,7 +14,7 @@
         android:layout_margin="20dp"
         android:text="加载相册" />
 
-    <com.jg.album.view.PullToRefresRecyclerView
+    <com.jg.album.view.PullToRefreshRecyclerView
         android:id="@+id/MainActivity_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

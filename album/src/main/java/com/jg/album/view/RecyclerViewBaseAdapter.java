@@ -35,6 +35,9 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
     /*加载更多*/
     public static final int LOAD_MORE = 0x200;
 
+    /*默认加载数量*/
+    private int pageSize = 20;
+
     /*加载状态*/
     private int loadStatus;
 
@@ -56,7 +59,7 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
     /*item 长按事件*/
     protected OnRecyclerViewItemLongClickListener longListener;
 
-    private PullToRefresRecyclerView.Mode mMode;
+    private PullToRefreshRecyclerView.Mode mMode;
 
     public RecyclerViewBaseAdapter(Context context) {
         this.mContent = context;
@@ -100,9 +103,9 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (getItemCount() >= RecyclerViewConstanct.DEFAULT_ITEM_MORE_COUNT
+        if (getItemCount() >= pageSize
                 && position + 1 == getItemCount()
-                && (mMode == PullToRefresRecyclerView.Mode.PULL_FROM_END || mMode == PullToRefresRecyclerView.Mode.BOTH)
+                && (mMode == PullToRefreshRecyclerView.Mode.PULL_FROM_END || mMode == PullToRefreshRecyclerView.Mode.BOTH)
                 && !isLoading
                 && isLoadMore) {
             return TYPE_FOOTER;
@@ -114,8 +117,8 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         int count = mList.size();
-        if (count >= RecyclerViewConstanct.DEFAULT_ITEM_MORE_COUNT
-                && (mMode == PullToRefresRecyclerView.Mode.PULL_FROM_END || mMode == PullToRefresRecyclerView.Mode.BOTH)
+        if (count >= pageSize
+                && (mMode == PullToRefreshRecyclerView.Mode.PULL_FROM_END || mMode == PullToRefreshRecyclerView.Mode.BOTH)
                 && !isLoading
                 && isLoadMore) {
             return ++count;
@@ -222,7 +225,7 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
      * author: hezhiWu
      * created at 2017/9/30 下午2:00
      */
-    public void setMode(PullToRefresRecyclerView.Mode mode) {
+    public void setMode(PullToRefreshRecyclerView.Mode mode) {
         this.mMode = mode;
     }
 
@@ -274,6 +277,16 @@ public abstract class RecyclerViewBaseAdapter<T> extends RecyclerView.Adapter {
      */
     public void setLoadMore(boolean loadMore) {
         isLoadMore = loadMore;
+    }
+
+    /**
+     * 设置PageSize
+     * <p>
+     * author: hezhiWu
+     * created at 2017/10/17 15:45
+     */
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public abstract RecyclerView.ViewHolder onBaseCreateViewHolder(ViewGroup parent, int viewType);

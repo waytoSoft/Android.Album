@@ -27,12 +27,13 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.jg.album.view.PullToRefresRecyclerView
+    <com.jg.album.view.PullToRefreshRecyclerView
         android:id="@+id/RecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="3dp"
         app:recyclerView.Mode="BOTH"
+        app:recyclerView.PageSize="200"
         app:recyclerView.Type="Grid"
         app:spac.InPixels="6"
         app:span.Count="3" />

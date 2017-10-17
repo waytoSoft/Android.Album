@@ -26,7 +26,7 @@ import com.jg.album.SpaceItemDecoration;
  * <p>
  * Copyright (c) 2017 Shenzhen O&M Cloud Co., Ltd. All rights reserved.
  */
-public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefreshLayout.OnRefreshListener {
+public class PullToRefreshRecyclerView extends LinearLayout implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
@@ -45,6 +45,9 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
     /*间距*/
     private int mSpacingInPixels;
 
+    /*默认加载数量*/
+    private int pageSize = 20;
+
     /*布局类型,默认List*/
     private Type mType = Type.List;
 
@@ -54,11 +57,11 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
     /*标记是否正在加载中*/
     private boolean isLoading = false;
 
-    public PullToRefresRecyclerView(Context context) {
+    public PullToRefreshRecyclerView(Context context) {
         super(context, null);
     }
 
-    public PullToRefresRecyclerView(Context context, AttributeSet attrs) {
+    public PullToRefreshRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         analysisAttributeset(context, attrs, 0);
 
@@ -133,10 +136,10 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
      * created at 2017/9/3 20:44
      */
     public void analysisAttributeset(Context context, AttributeSet attrs, int defStyle) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PullToRefresRecyclerView, defStyle, 0);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PullToRefreshRecyclerView, defStyle, 0);
 
         /*解析类型*/
-        int type = typedArray.getInt(R.styleable.PullToRefresRecyclerView_recyclerView_Type, Type.List.getValue());
+        int type = typedArray.getInt(R.styleable.PullToRefreshRecyclerView_recyclerView_Type, Type.List.getValue());
         if (type == Type.List.getValue()) {
             mType = Type.List;
         } else if (type == Type.Grid.getValue()) {
@@ -146,7 +149,7 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
         }
 
         /*解析刷新模式*/
-        int mode = typedArray.getInt(R.styleable.PullToRefresRecyclerView_recyclerView_Mode, Mode.PULL_FROM_START.getValue());
+        int mode = typedArray.getInt(R.styleable.PullToRefreshRecyclerView_recyclerView_Mode, Mode.PULL_FROM_START.getValue());
         if (mode == Mode.DISABLED.getValue()) {
             mMode = Mode.DISABLED;
         } else if (mode == Mode.PULL_FROM_START.getValue()) {
@@ -157,9 +160,11 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
             mMode = Mode.BOTH;
         }
 
-        mSpanNum = typedArray.getInt(R.styleable.PullToRefresRecyclerView_span_Count, 3);
+        mSpanNum = typedArray.getInt(R.styleable.PullToRefreshRecyclerView_span_Count, 3);
 
-        mSpacingInPixels = typedArray.getInt(R.styleable.PullToRefresRecyclerView_spac_InPixels, 0);
+        mSpacingInPixels = typedArray.getInt(R.styleable.PullToRefreshRecyclerView_spac_InPixels, 0);
+
+        pageSize = typedArray.getInt(R.styleable.PullToRefreshRecyclerView_recyclerView_PageSize, 20);
     }
 
 
@@ -248,6 +253,7 @@ public class PullToRefresRecyclerView extends LinearLayout implements SwipeRefre
         this.mAdapter = adapter;
         mRecyclerView.setAdapter(adapter);
         adapter.setMode(mMode);
+        adapter.setPageSize(pageSize);
     }
 
     /**

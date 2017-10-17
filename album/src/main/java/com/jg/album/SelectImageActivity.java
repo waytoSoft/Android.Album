@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 import com.jg.album.model.SelectImageContract;
 import com.jg.album.model.SelectImagePresent;
 import com.jg.album.model.data.PictureEntity;
-import com.jg.album.view.PullToRefresRecyclerView;
+import com.jg.album.view.PullToRefreshRecyclerView;
 import com.jg.album.view.PullToRefreshRecyclerViewListener;
 import com.jg.album.view.RecyclerViewBaseAdapter;
 
@@ -47,7 +46,7 @@ public class SelectImageActivity extends AppCompatActivity implements PullToRefr
     private final int TACK_PICTURE_VALUE = 490;
     public static final int SELECT_PICTURE_RESULT_CODE = 491;
 
-    public final int DEFULT_PAGESIZE = 20;
+    public final int DEFULT_PAGESIZE = 200;
     public int pageIndex = 0;
 
     private TextView mTotalTextView;
@@ -55,7 +54,7 @@ public class SelectImageActivity extends AppCompatActivity implements PullToRefr
 
     private ActionBar mActionBar;
 
-    private PullToRefresRecyclerView refresRecyclerView;
+    private PullToRefreshRecyclerView refresRecyclerView;
 
     private SelectImageAdapter adapter;
 
@@ -90,7 +89,7 @@ public class SelectImageActivity extends AppCompatActivity implements PullToRefr
      * created at 2017/10/16 19:16
      */
     private void initView() {
-        refresRecyclerView = (PullToRefresRecyclerView) findViewById(R.id.RecycleView);
+        refresRecyclerView = (PullToRefreshRecyclerView) findViewById(R.id.RecycleView);
         mTotalTextView = (TextView) findViewById(R.id.Title_total);
         mToolbar = (Toolbar) findViewById(R.id.Toolbar);
 
