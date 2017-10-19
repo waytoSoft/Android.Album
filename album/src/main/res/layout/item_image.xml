@@ -14,7 +14,7 @@
             android:id="@+id/ItemSelectePicture_shadow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#98000000"
+            android:background="#BB000000"
             android:visibility="gone" />
 
         <CheckBox
