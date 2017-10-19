@@ -43,6 +43,7 @@ public class SelectImageAdapter extends RecyclerViewBaseAdapter<PictureEntity> {
         int width = getScreenW((Activity) mContent) / 3;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width);
         viewHolder.imageView.setLayoutParams(params);
+        viewHolder.textView.setLayoutParams(params);
 
         viewHolder.checkBox.setOnCheckedChangeListener(null);
 
