@@ -20,3 +20,10 @@
 #### 1、分页加载引用[PullToRefreshRecyclerView](https://github.com/waytoSoft/Android.PullToRefresRecycelView),这是自己封装的一个控件，包括下拉刷新 ，上拉刷新，上下拉刷新，禁用刷新四种模式，目前支持List、Grid、Gallery等类型
 #### 2、加载图片引用[Glide](https://github.com/bumptech/glide),很牛B的一个图片加载库
 #### 3、Demo使用MVP模式实现
+
+### Demo截图
+
+<div class="tutorial-mock">
+  <img src="http://facebook.github.io/react-native/img/TutorialMock.png" />
+  <img src="http://facebook.github.io/react-native/img/TutorialMock2.png" />
+</div>
