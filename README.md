@@ -24,6 +24,6 @@
 ### Demo截图
 
 <div class="tutorial-mock">
-  <img src="http://facebook.github.io/react-native/img/TutorialMock.png" />
+  <img src="./s1.jpg" />
   <img src="http://facebook.github.io/react-native/img/TutorialMock2.png" />
 </div>
